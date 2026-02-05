@@ -25,16 +25,13 @@ https://github.com/anujgupta82/Representation-Learning-for-NLP
 ## How to Run
 
 ### 1. Clone Repo
-'''bash
 git clone https://github.com/DanielSunkiLee/BoW-BERT.git
 cd bow-bert
 
 ### 2. Install
-'''bash
 pip install -r requirements.txt
 
 ### 3. Run
-'''bash
 python train.py
 
 +++ Score...
