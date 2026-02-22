@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split
 #Minimal Pytorch Dataset that BERT can work with
 #a
 #
-
 class SentimentDataset(Dataset):
     def __init__(self, encodings, labels) :
         self.encodings = encodings

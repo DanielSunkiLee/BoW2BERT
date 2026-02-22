@@ -7,15 +7,15 @@ from src import compute_metrics
 from src import train_model
 from accelerate import Accelerator
 accelerator = Accelerator()
-
+from torch.utils.data import Subset
 #set up csv file path.
 #
 #
-BASE_DIR = Path(__file__).resolve().parent
-ML_DIR = BASE_DIR.parent.parent
+base_dir = Path(__file__).resolve().parent
+ML_dir = base_dir.parent.parent
 
 DATA_DIR = (
-    ML_DIR
+    ML_dir
     / "Representation_Learning"
     / "Representation-Learning-for-NLP"
     / "data"
@@ -35,7 +35,7 @@ CSV_PATH = DATA_DIR / "training.1600000.processed.noemoticon.csv"
 texts, labels = load_dataset(CSV_PATH)
 
 # split
-text_train, text_val, y_train, y_val = split_data(texts, labels)
+text_train, text_eval, y_train, y_val = split_data(texts, labels)
 
 # model & tokenizer
 tokenizer = load_tokenizer()
@@ -43,19 +43,22 @@ model = load_model()
 optimizer = torch.optim.AdamW(model.parameters(), lr = 5e-5)
 # tokenize
 train_enc = tokenizer(text_train, truncation=True, padding=True, max_length=128)
-val_enc = tokenizer(text_val, truncation=True, padding=True, max_length=128)
+eval_enc = tokenizer(text_eval, truncation=True, padding=True, max_length=128)
 
 train_dataset = SentimentDataset(train_enc, y_train)
-val_dataset = SentimentDataset(val_enc, y_val)
+eval_dataset = SentimentDataset(eval_enc, y_val)
+
+small_train = Subset(train_dataset,range(1000))
+small_eval =  Subset(eval_dataset,range(1000))
 
 # train
-trainer = train_model(model, train_dataset, val_dataset, compute_metrics)
+trainer = train_model(model, small_train, small_eval, compute_metrics)
 loss_function = torch.nn.CrossEntropyLoss()
 
-optimizer, train_dataset, val_dataset, trainer = accelerator.prepare(
-    optimizer, train_dataset, val_dataset, trainer)
+optimizer, train, eval_dataset, trainer = accelerator.prepare(
+    optimizer, small_train, small_eval, trainer)
 
-for batch in train_dataset :
+for batch in train :
     optimizer.zero_grad()
     inputs, targets = batch
     outputs = trainer.model(**inputs)
@@ -63,4 +66,8 @@ for batch in train_dataset :
     accelerator.backward(loss)
     optimizer.step()
 
+
 tokenizer.save_pretrained("./saved_model")
+
+metrics = trainer.evaluate(eval_dataset=small_eval)
+print(metrics)

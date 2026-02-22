@@ -1,4 +1,6 @@
+<p align="center">
 # BoW -> BERT : Sentiment Analysis
+</p>
 
 This project explores sentiment analysis using traditional BoW models
 and modern Transformer-based models(BERT).
