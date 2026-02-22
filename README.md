@@ -48,11 +48,19 @@ python train.py
 
 ## Results
 
+### Training Dynamics (BERT FT)
+During fine-tuning, the model demonstrates stable optimization and rapid convergence:
+
 | epoch | Loss | Grad Norm | Learning Rate |
 |-------|------|-----------|---------------|
 | 3.125 | 0.467|   8.09    |   1.802e-05   |
 | 6.25  | 0.092|  0.3828   |   1.602e-05   |
 | 9.375 | 0.006| 0.03089   |   1.402e-05   |
 
-### Citing 🤗BERT
+### Observations
+- Monotonic loss reduction indicating effective FT.
+- Gradient norm decay suggests stabilization of parameter updates.
+- No signs of gradient explosion or instability.
+
+## Citing 🤗BERT
 [BERT](https://huggingface.co/google-bert/bert-base-uncased)
