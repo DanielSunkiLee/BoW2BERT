@@ -1,18 +1,29 @@
 <h1 align="center">BoW2BERT : Sentiment Analysis</h1>
 
 This project explores sentiment analysis using traditional Bag-of-Words(BoW) models
-and modern Transformer-based models,BERT. This project was motivated from adaption of one of the nowadays' serious standard model, Transformer, especially BERT to feature-based NLP methods, Bag-of-Words.
+and modern Transformer-based models,BERT. 
 
-### (From) Bag-of-Words Pipeline
+The motivation behind this work is to examine the adaption of one of today's most influential standard models -- the Transformer, particulary BERT -- in comparison with classical feature-based NLP approaches such as Bag-of-Words.
+
+By contrasting these methodologies, this project aims to provide a clear perspective on the evolution of sentiment analysis techniques, from conventional statistical representations to deep contextual language models.
+
+### Baseline: Bag-of-Words Pipeline
+#### Feature Extraction
 - CountVectorizer (unigram+bigram)
-- Chi-square feature selection
+- High-dimensional sparse token-frequency matrix
+#### Feature Selection
+- Chi-square statistical filtering
+- Dimensionality reduction via discriminative feature ranking
+#### Classifier
 - Logistic Regression
 
-### (To) BERT-based Model
+### Advanced Model:  BERT-based Architecture
+#### Backbone
 - Pretrained BERT from Huggingface
 - FT on sentiment dataset
-- Accelerate
-- Speed-efficient with JAX/JIT
+#### Optimization & Efficiency
+- Hugging Face Accelerate (multi-device & mixed precision training)
+- JAX with JIT compilation for improved execution throughput
 
 ## Reference 
 https://github.com/anujgupta82/Representation-Learning-for-NLP
