@@ -5,8 +5,6 @@ from src import split_data, SentimentDataset
 from src import load_model, load_tokenizer
 from src import compute_metrics
 from src import train_model
-from accelerate import Accelerator
-accelerator = Accelerator()
 from torch.utils.data import Subset
 #set up csv file path.
 #
@@ -55,6 +53,7 @@ small_eval =  Subset(eval_dataset,range(1000))
 trainer = train_model(model, small_train, small_eval, compute_metrics)
 loss_function = torch.nn.CrossEntropyLoss()
 
+'''
 optimizer, train, eval_dataset, trainer = accelerator.prepare(
     optimizer, small_train, small_eval, trainer)
 
@@ -65,7 +64,7 @@ for batch in train :
     loss = loss_function(outputs, targets)
     accelerator.backward(loss)
     optimizer.step()
-
+'''
 
 tokenizer.save_pretrained("./saved_model")
 

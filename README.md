@@ -32,7 +32,7 @@ https://github.com/anujgupta82/Representation-Learning-for-NLP
 
 ### 1. Clone Repo
 ```
-git clone https://github.com/DanielSunkiLee/BoW-BERT.git
+git clone https://github.com/DanielSunkiLee/BoW2BERT.git
 cd bow-bert
 ```
 
@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 ### 3. Run
 ```
-python train.py
+python run_train.py
 ```
 
 ## Results
